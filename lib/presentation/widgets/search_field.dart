@@ -1,60 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sneakers_list/core/constants/app_icons.dart';
 import 'package:sneakers_list/core/constants/app_strings.dart';
-import 'package:sneakers_list/presentation/controllers/search_controller.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class WgtSearchField extends GetView<SearchShoeController> {
+class WgtSearchField extends StatefulWidget {
+  @override
+  _WgtSearchFieldState createState() => _WgtSearchFieldState();
+}
+
+class _WgtSearchFieldState extends State<WgtSearchField> {
+  bool _isExpanded = false;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() {
+          _isExpanded = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    final searchWidth = screenWidth * 0.5;
-
-    return Container(
-      height: 34,
-      width: searchWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: colorScheme.onPrimary,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller.searchController,
-              style: textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurface,
-              ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                fillColor: Colors.transparent,
-                alignLabelWithHint: true,
-                hintText: AppStrings.search,
-                hintStyle: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.6),
+    return Stack(
+      children: [
+        if (_isExpanded)
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isExpanded = false;
+                _focusNode.unfocus();
+              });
+            },
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: 34,
+            width: _isExpanded
+                ? MediaQuery.of(context).size.width * 0.9
+                : MediaQuery.of(context).size.width * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: colorScheme.onPrimary,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: TextField(
+                    focusNode: _focusNode,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      fillColor: Colors.transparent,
+                      alignLabelWithHint: true,
+                      hintText: AppStrings.search,
+                      hintStyle: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                      contentPadding:
+                          const EdgeInsets.only(top: 10, bottom: 10, left: 15),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _isExpanded = true;
+                      });
+                    },
+                  ),
                 ),
-                contentPadding:
-                    const EdgeInsets.only(top: 10, bottom: 10, left: 15),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: SvgPicture.asset(
+                    AppIcons.search,
+                    colorFilter: ColorFilter.mode(
+                      colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: SvgPicture.asset(
-              AppIcons.search,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface, // Theme-aware icon color
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

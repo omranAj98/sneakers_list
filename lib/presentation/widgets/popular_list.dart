@@ -4,6 +4,8 @@ import 'package:sneakers_list/core/constants/app_strings.dart';
 import 'package:sneakers_list/core/routes/routes.dart';
 import 'package:sneakers_list/presentation/controllers/cart_controller.dart';
 import 'package:sneakers_list/presentation/controllers/sneaker_controller.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sneakers_list/presentation/widgets/add_to_cart_button.dart';
 
 class WgtPopularList extends StatefulWidget {
   const WgtPopularList({Key? key}) : super(key: key);
@@ -51,7 +53,7 @@ class _WgtPopularListState extends State<WgtPopularList> {
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              height: screenHeight * 0.14,
+              height: screenHeight * 0.15,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 // padding: EdgeInsets.only(left: 30),
@@ -108,7 +110,7 @@ class _WgtPopularListState extends State<WgtPopularList> {
                                           color: colorScheme.onSurface,
                                         ),
                                       ),
-                                      SizedBox(height: 4),
+                                      SizedBox(height: 4.h),
                                       Text(
                                         sneaker.brand,
                                         overflow: TextOverflow.ellipsis,
@@ -128,31 +130,18 @@ class _WgtPopularListState extends State<WgtPopularList> {
                                         ),
                                       ),
                                       Spacer(),
-                                      TextButton(
-                                        onPressed: () => {
-                                          cartController.addToCart(sneaker),
+                                      WgtAddToCartButton(
+                                        onPressed: () {
+                                          cartController.addToCart(sneaker);
                                           Get.snackbar(
                                             AppStrings.success,
                                             '${sneaker.name} ${AppStrings.hasBeenAddedToCart}.',
                                             snackPosition: SnackPosition.BOTTOM,
-                                          ),
+                                          );
                                         },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: colorScheme.primary,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 8),
-                                        ),
-                                        child: Text(
-                                          AppStrings.addToCart,
-                                          style: textTheme.bodyMedium?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface,
-                                          ),
-                                        ),
+                                        buttonText: AppStrings.addToCart,
+                                        backgroundColor: colorScheme.primary,
+                                        textColor: colorScheme.onPrimary,
                                       ),
                                     ],
                                   ),

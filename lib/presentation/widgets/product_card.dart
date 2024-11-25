@@ -7,6 +7,7 @@ import 'package:sneakers_list/core/routes/routes.dart';
 import 'package:sneakers_list/domain/entities/sneaker.dart';
 import 'package:sneakers_list/presentation/controllers/cart_controller.dart';
 import 'package:sneakers_list/presentation/views/product_detail_view.dart';
+import 'package:sneakers_list/presentation/widgets/add_to_cart_button.dart';
 
 class WgtProductCard extends StatelessWidget {
   final Sneaker sneaker;
@@ -112,7 +113,7 @@ class WgtProductCard extends StatelessWidget {
             ),
             SizedBox(height: 6),
             Center(
-              child: TextButton(
+              child: WgtAddToCartButton(
                 onPressed: () {
                   cartController.addToCart(sneaker);
                   Get.snackbar(
@@ -121,21 +122,9 @@ class WgtProductCard extends StatelessWidget {
                     snackPosition: SnackPosition.BOTTOM,
                   );
                 },
-                style: TextButton.styleFrom(
-                  backgroundColor: colorScheme.onSecondary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  shadowColor: Colors.black12,
-                  elevation: 2,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                ),
-                child: Text(
-                  AppStrings.addToCart,
-                  style: textTheme.bodyMedium
-                      ?.copyWith(color: colorScheme.onPrimary),
-                ),
+                buttonText: AppStrings.addToCart,
+                backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                textColor: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sneakers_list/presentation/controllers/main_controller.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WgtBottomNavigationBar extends GetView<MainController> {
   final List<BottomNavItem> items;
@@ -38,8 +39,8 @@ class WgtBottomNavigationBar extends GetView<MainController> {
                             color: isSelected ? activeColor : backgroundColor,
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          height: 30,
-                          width: 30,
+                          height: 30.h,
+                          width: 30.h,
                           alignment: Alignment.center,
                           child: SvgPicture.asset(
                             item.icon,
@@ -47,10 +48,10 @@ class WgtBottomNavigationBar extends GetView<MainController> {
                               isSelected ? backgroundColor : inactiveColor,
                               BlendMode.srcIn,
                             ),
-                            width: 24,
-                            height: 24,
+                            width: 24.h,
+                            height: 24.h,
                           )),
-                      SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       isSelected
                           ? Text(
                               item.label,

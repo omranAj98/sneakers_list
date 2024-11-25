@@ -25,11 +25,13 @@ class CartPage extends StatelessWidget {
             icon: Icon(Icons.delete_outline),
             onPressed: () {
               Get.defaultDialog(
+                buttonColor: colorScheme.primary,
+                cancelTextColor: colorScheme.onSurface,
                 title: AppStrings.clearCart,
                 middleText: AppStrings.areYouSureWantToClearCart,
                 textCancel: AppStrings.no,
                 textConfirm: AppStrings.yes,
-                confirmTextColor: Colors.white,
+                confirmTextColor: colorScheme.onPrimary,
                 onConfirm: () {
                   cartController.clearCart();
                   Get.back();

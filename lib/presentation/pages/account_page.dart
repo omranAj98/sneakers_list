@@ -32,8 +32,8 @@ class AccountPage extends GetView<AccountController> {
                   children: [
                     const ListTile(
                       leading: Icon(Icons.person),
-                      title: Text("John Doe"),
-                      subtitle: Text("john.doe@example.com"),
+                      title: Text("Omran Ajlouni"),
+                      subtitle: Text("omranajlouni@gmail.com"),
                     ),
                     const Divider(),
                     _buildAccountButton(

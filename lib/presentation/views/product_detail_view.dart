@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sneakers_list/core/constants/app_strings.dart';
 import 'package:sneakers_list/domain/entities/sneaker.dart';
 import 'package:sneakers_list/presentation/controllers/cart_controller.dart';
+import 'package:sneakers_list/presentation/widgets/add_to_cart_button.dart';
 
 class ProductDetailView extends StatelessWidget {
   const ProductDetailView({Key? key}) : super(key: key);
@@ -66,30 +67,23 @@ class ProductDetailView extends StatelessWidget {
             ),
             SizedBox(height: 16),
             // Add to cart button
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  cartController.addToCart(sneaker);
-                  Get.snackbar(
-                    AppStrings.success,
-                    '${sneaker.name} ${AppStrings.hasBeenAddedToCart}.',
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: colorScheme.surface,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                WgtAddToCartButton(
+                  onPressed: () {
+                    cartController.addToCart(sneaker);
+                    Get.snackbar(
+                      AppStrings.success,
+                      '${sneaker.name} ${AppStrings.hasBeenAddedToCart}.',
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  },
+                  buttonText: AppStrings.addToCart,
+                  backgroundColor: colorScheme.primary,
+                  textColor: colorScheme.onPrimary,
                 ),
-                child: Text(
-                  AppStrings.addToCart,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.primary,
-                  ),
-                ),
-              ),
+              ],
             ),
           ],
         ),

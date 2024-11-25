@@ -1,11 +1,12 @@
+// lib/presentation/controllers/sneaker_controller.dart
 import 'package:get/get.dart';
 import '../../domain/entities/sneaker.dart';
-import '../../domain/repositories/sneaker_repository.dart';
+import '../../domain/usecases/fetch_sneakers.dart';
 
 class SneakerController extends GetxController {
-  final SneakerRepository repository;
+  final FetchSneakersUseCase fetchSneakersUseCase;
 
-  SneakerController({required this.repository});
+  SneakerController({required this.fetchSneakersUseCase});
 
   var sneakers = <Sneaker>[].obs;
   var isLoading = false.obs;
@@ -19,7 +20,7 @@ class SneakerController extends GetxController {
   void fetchSneakers() async {
     try {
       isLoading(true);
-      final data = await repository.fetchSneakers();
+      final data = await fetchSneakersUseCase();
       sneakers.value = data;
     } catch (e) {
       SnackbarController(GetSnackBar(
